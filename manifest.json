@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Collapse & Pin",
+  "version": "1.0",
+  "description": "Collapse and pin ChatGPT responses",
+  "permissions": ["storage"],
+  "host_permissions": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "modules/content.js",
+        "modules/contentMain.js",
+        "modules/contentMain.js",
+        "modules/scroll.js",
+        "modules/selectors.js",
+        "modules/*.js",
+        "db/storage.js",
+        "utils/utils.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

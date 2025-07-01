@@ -1,0 +1,40 @@
+.chatgpt-toolbar {
+  display: flex;
+  gap: 8px;
+  background: rgba(40, 40, 40, 0.8);
+  padding: 4px 8px;
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  margin: 6px 0;
+}
+
+.chatgpt-toolbar-top {
+  justify-content: flex-start;
+}
+
+.chatgpt-toolbar-bottom {
+  justify-content: flex-end;
+}
+
+.chatgpt-toolbar button {
+  color: white;
+  background-color: #4a4a4a;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+
+.chatgpt-toolbar button:hover {
+  background-color: #606060;
+}
+
+/* .markdown.collapsed {
+  transition: max-height 0.3s ease, margin-bottom 0.3s ease;
+} */
+
+/* .markdown {
+  transition: max-height 0.25s ease;
+} */
