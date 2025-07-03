@@ -20,7 +20,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["modules/*.js"],
+      "resources": ["modules/alignButtons.js","modules/*.js"],
       "matches": ["<all_urls>"]
     }
   ]
