@@ -1,5 +1,5 @@
 const JSONBIN_API_KEY = "$2a$10$r7B2yZ.dycvgPqM0pcALueqNNZ.9aFlOggfWgd75mgra0gpLhE5Em"; // 🔒 keep private
-const BIN_ID = "6863a4998561e97a502f863d";
+const BIN_ID = "686884b18561e97a5031b930";
 
 const headers = {
   "Content-Type": "application/json",

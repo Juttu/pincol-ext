@@ -42,7 +42,7 @@ export function registerAligner() {
       const wrapLeft = wrap.getBoundingClientRect().left;
       const targetLeft = target.getBoundingClientRect().left;
 
-      const offset = Math.round(targetLeft - wrapLeft - 5 - 75); // “5 px left”
+      const offset = Math.round(targetLeft - wrapLeft - 5 - 45); // “5 px left”
       if (btnBox.dataset._cachedOffset !== String(offset)) {
         btnBox.style.marginLeft = `${offset}px`;
         btnBox.dataset._cachedOffset = String(offset);

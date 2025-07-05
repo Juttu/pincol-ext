@@ -4,23 +4,17 @@
   "version": "1.0.0",
   "description": "Adds two floating buttons to every ChatGPT assistant reply.",
   "permissions": ["storage"],
-  "host_permissions": [
-    "https://chat.openai.com/*",
-    "https://chatgpt.com/*"
-  ],
+  "host_permissions": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
   "content_scripts": [
     {
-      "matches": [
-        "https://chat.openai.com/*",
-        "https://chatgpt.com/*"
-      ],
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
       "js": ["content.js"],
       "css": ["styles.css"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["modules/alignButtons.js","modules/*.js"],
+      "resources": ["modules/*/*.js", "modules/*.js", "db/*.js"],
       "matches": ["<all_urls>"]
     }
   ]
