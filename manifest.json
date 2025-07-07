@@ -14,7 +14,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["modules/*/*.js", "modules/*.js", "db/*.js"],
+      "resources": ["modules/*/*.js", "modules/*.js", "db/*.js", "db/persistence.js", "assets/*.png"],
       "matches": ["<all_urls>"]
     }
   ]

@@ -1,9 +1,14 @@
 /* modules/persistence.js */
 const API_KEY = "$2a$10$PsC5d/adIkIJuZbMeQB9eeCmRHIouSkl1hNxC9KwMfVbTsmxEDYIu"; // 🔒 keep private
-const BIN_ID = "686884b18561e97a5031b930";
+const BIN_ID = "686b75aa8a456b7966bcae41";
 
 const ROOT = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 const LATEST = `${ROOT}/latest`;
+
+const HEADERS = {
+  "Content-Type": "application/json",
+  "X-Master-Key": API_KEY,
+};
 
 let cache = null; // in-memory cache of entire bin
 
@@ -45,6 +50,7 @@ async function saveAll(arr) {
  * Load state for a chat. If it doesn't exist, create it and save to bin.
  */
 export async function loadStateForChat(chatId) {
+  console.debug("[persistence] loadStateForChat:", chatId);
   const all = await fetchAll();
   let chat = all.find((x) => x.chatid === chatId);
 
@@ -82,4 +88,39 @@ export async function toggleCollapse(chatId, msgId, shouldCollapse) {
 
   await saveAll(all);
   console.debug("[persistence] toggleCollapse: state saved");
+}
+
+export async function savePinIdToDB(chatId, msgId) {
+  const all = await fetchAll();
+  let chat = all.find((x) => x.chatid === chatId);
+  if (!chat) {
+    chat = { chatid: chatId, collapseids: [], pinids: [] };
+    all.push(chat);
+  }
+
+  if (!chat.pinids.includes(msgId)) {
+    chat.pinids.push(msgId);
+  }
+
+  await saveAll(all);
+}
+
+export async function removePinIdFromDB(chatId, msgId) {
+  const all = await fetchAll();
+  const chat = all.find((x) => x.chatid === chatId);
+
+  if (!chat) {
+    console.warn(`[persistence] ❌ removePinIdFromDB: No chat found for chatId=${chatId}`);
+    return;
+  }
+
+  const index = chat.pinids.indexOf(msgId);
+  if (index === -1) {
+    console.warn(`[persistence] ⚠️ removePinIdFromDB: msgId=${msgId} not found in pinids`);
+    return;
+  }
+
+  chat.pinids.splice(index, 1); // Remove the ID
+  await saveAll(all); // Persist change
+  console.info(`[persistence] ✅ Removed msgId=${msgId} from pinids for chatId=${chatId}`);
 }

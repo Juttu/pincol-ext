@@ -38,16 +38,29 @@ export function collapseWhenReady(msgId) {
 
   /* 2. not there yet → observe once ----------------------------------- */
   const mo = new MutationObserver((_muts, obs) => {
+    console.debug("[PinCol] MutationObserver detected ID change in article:", msgId);
     const a = findArticle();
-    if (!a) return; // still missing – wait a bit longer
+    if (!a) {
+      console.debug("[PinCol] Article not found yet for msgId:", msgId);
+      return; // still missing – wait a bit longer
+    }
+
+    console.debug("[PinCol] Article found for msgId:", msgId);
 
     if (!a.classList.contains("collapsed")) {
+      console.debug("[PinCol] Collapsing article for msgId:", msgId);
       a.classList.add("collapsed");
 
       const topBtn = a.parentElement?.querySelector(".top-collapse-btn");
-      if (topBtn) topBtn.textContent = "▶ Expand";
+      if (topBtn) {
+        console.debug("[PinCol] Updating top-collapse-btn text for msgId:", msgId);
+        topBtn.textContent = "▶ Expand";
+      }
+    } else {
+      console.debug("[PinCol] Article already collapsed for msgId:", msgId);
     }
     obs.disconnect(); // clean up – job finished
+    console.debug("[PinCol] MutationObserver disconnected for msgId:", msgId);
   });
 
   mo.observe(document.body, { childList: true, subtree: true });

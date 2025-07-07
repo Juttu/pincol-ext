@@ -7,7 +7,8 @@
 [class^="btn-wrapper-"] {
   position: absolute;
   left: 0;
-  top: 0;          /* updated via JS while scrolling */
+  top: 0; /* updated via JS while scrolling */
+  margin: 25px;
   flex-direction: column;
   gap: 5px;
   z-index: 10;
@@ -18,14 +19,77 @@
   background: #2f2f2f;
   color: #fff;
   border: 1px solid #ffffff26;
-  border-radius: 8px;
+  border-radius: 90px;
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 8px 3px;
   cursor: pointer;
 }
 [class^="btn-wrapper-"] button:hover {
   background: #4e4e4e;
 }
 
+/* When collapsed */
+.article-wrapper article.custom-collapsed {
+  max-height: 7.5em; /* approx. 5 lines at ~1.5em/line */
+  min-height: 0 !important;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
 
+.flash-highlight {
+  animation: flashFadeUltraSoft 2s ease-out;
+  border-radius: 12px;
+  will-change: background-color;
+}
 
+@keyframes flashFadeUltraSoft {
+  0% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  10% {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  20% {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+  30% {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  40% {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+  60% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  70% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  80% {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  90% {
+    background-color: rgba(255, 255, 255, 0.01);
+  }
+  92% {
+    background-color: rgba(255, 255, 255, 0.0045);
+  }
+  95% {
+    background-color: rgba(255, 255, 255, 0.005);
+  }
+  98% {
+    background-color: rgba(255, 255, 255, 0.002);
+  }
+  99% {
+    background-color: rgba(255, 255, 255, 0.001);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+.pin-button:hover {
+  background-color: #c30f0f;
+}

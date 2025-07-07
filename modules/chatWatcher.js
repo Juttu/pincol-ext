@@ -10,6 +10,7 @@ export function registerChatSwitchWatcher(onChatChanged) {
   }
 
   function checkChatChange(source = "unknown") {
+    console.debug(`[PinCol] Checking chat change (${source})...`);
     const currentChatId = getChatId();
     if (currentChatId && currentChatId !== lastChatId) {
       console.log(`[PinCol] Chat switched (${source}) →`, currentChatId);

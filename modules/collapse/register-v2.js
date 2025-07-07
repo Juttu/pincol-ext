@@ -13,11 +13,18 @@ export function registerCollapse() {
 
   /* observe future DOM mutations */
   new MutationObserver((muts) => {
+    console.debug("[PinCol] MutationObserver detected changes in the DOM");
     muts.forEach((m) => {
       m.addedNodes.forEach((n) => {
         if (n.nodeType !== 1) return;
-        if (n.matches?.(ARTICLE)) queue(n);
-        n.querySelectorAll?.(ARTICLE).forEach(queue);
+        if (n.matches?.(ARTICLE)) {
+          console.debug("[PinCol] Added node matches ARTICLE selector:", n);
+          queue(n);
+        }
+        n.querySelectorAll?.(ARTICLE).forEach((el) => {
+          console.debug("[PinCol] Found ARTICLE in added node subtree:", el);
+          queue(el);
+        });
       });
     });
     bindScroll();
@@ -34,35 +41,31 @@ export function forceCollapseById(msgId) {
  * MutationObserver that collapses it the moment it appears.
  */
 function collapseWhenAvailable(msgId) {
-  // Helper to update button label
-  function updateButton(article, label) {
-    const wrapper = article.closest(".article-wrapper");
-    const btn = wrapper?.querySelector(".top-collapse-btn");
-    if (btn) btn.textContent = label;
-  }
-
-  // Try collapsing immediately
-  const article = document
-    .querySelector(`[data-message-id="${msgId}"]`)
-    ?.closest('article[data-testid^="conversation-turn"]');
-
-  if (article) {
-    if (!article.classList.contains("collapsed")) {
-      article.classList.add("collapsed");
-      updateButton(article, "▶");
-    }
-    return;
-  }
-
-  // Otherwise, observe and wait
-  const mo = new MutationObserver((_muts, obs) => {
-    const art = document
+  console.log("[PinCol] Forcing collapse for msgId:", msgId);
+  function tryCollapse() {
+    const article = document
       .querySelector(`[data-message-id="${msgId}"]`)
       ?.closest('article[data-testid^="conversation-turn"]');
 
-    if (art && !art.classList.contains("collapsed")) {
-      art.classList.add("collapsed");
-      updateButton(art, "▶");
+    if (!article) return false;
+
+    const btn = article.closest(".article-wrapper")?.querySelector(".top-collapse-btn");
+    if (!btn) return false;
+
+    if (!article.classList.contains("collapsed")) {
+      console.log("[PinCol] REGISTERV2 Collapsing reply:", msgId);
+      article.classList.add("collapsed");
+      btn.textContent = "▶";
+    }
+    return true;
+  }
+
+  if (tryCollapse()) return;
+
+  const mo = new MutationObserver((muts, obs) => {
+    console.debug("[PinCol] MutationObserver (forceCollapseById) detected mutations:", muts);
+    if (tryCollapse()) {
+      console.debug("[PinCol] MutationObserver (forceCollapseById) condition met, disconnecting observer.");
       obs.disconnect();
     }
   });

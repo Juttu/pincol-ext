@@ -3,6 +3,7 @@
  *  edge sits 5 px left of the first “group/conversation-turn” block
  * ================================================================ */
 export function registerAligner() {
+  console.log("[Align-Buttons] registerAligner()");
   /* ----------------------------------------------------------- *
    *  A.  tiny   helpers
    * ----------------------------------------------------------- */
@@ -60,7 +61,7 @@ export function registerAligner() {
 
   // keep aligned on resize / scroll
   window.addEventListener("resize", alignChatButtons, { passive: true });
-  window.addEventListener("scroll", alignChatButtons, { passive: true });
+  // window.addEventListener("scroll", alignChatButtons, { passive: true });
 
   // …and whenever DOM changes (new replies etc.)
   new MutationObserver(alignChatButtons).observe(document.body, { childList: true, subtree: true });
