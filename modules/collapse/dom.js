@@ -6,6 +6,7 @@ import { addPin } from "./../pin/add-pin.js";
 const work = new Set();
 let queued = false;
 export function queue(article) {
+  console.debug("[PinCol] Queuing article for enhancement:", article);
   if (article && !work.has(article)) {
     work.add(article);
     schedule();
@@ -19,6 +20,7 @@ function schedule() {
     queued = false;
     const deadline = performance.now() + 50;
     for (const art of work) {
+      console.debug("[PinCol] Enhancing article :", art);
       enhance(art);
       work.delete(art);
       if (performance.now() > deadline) {
@@ -38,6 +40,8 @@ function getMsgId(art) {
 /* -------- enhance one reply (buttons etc.) ------------------------- */
 export function enhance(article) {
   const id = getMsgId(article);
+  if (article.parentElement?.classList.contains("article-wrapper")) return;
+
   // ⛔ Still loading? Schedule re-check
   if (!id || id.startsWith("placeholder-request-")) {
     const observer = new MutationObserver((_mutations, obs) => {
@@ -160,8 +164,10 @@ export function enhance(article) {
 
 /* -------- keep buttons vertically aligned ------------------------- */
 export function updatePositions() {
+  console.debug("[PinCol] updatePositions Updating button positions");
   const vh = window.innerHeight;
   document.querySelectorAll(".article-wrapper").forEach((w) => {
+    console.debug("[PinCol] updatePositions forEach article wrapper:", w);
     const art = w.querySelector(ARTICLE);
     const btn = w.querySelector('[class^="btn-wrapper-"]');
     if (!art || !btn) return;
@@ -179,6 +185,7 @@ export function updatePositions() {
 /* -------- bind scroll on whichever element scrolls ---------------- */
 let SCROLLER = window;
 export function bindScroll() {
+  console.debug("[PinCol] bindScroll Binding scroll event to the correct scroller");
   const first = document.querySelector(ASSIST_QUERY)?.closest("article");
   const tgt = first ? getScrollParent(first) : window;
   if (tgt === SCROLLER) return;
