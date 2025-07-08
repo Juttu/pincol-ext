@@ -102,6 +102,8 @@ export function enhance(article) {
   // add text to "" because we are using image below
   // bot.textContent = "";
 
+
+  
   const img = document.createElement("img");
   img.src = chrome.runtime.getURL("assets/pin-17.png");
   img.alt = "Pin";

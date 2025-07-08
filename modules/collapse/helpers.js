@@ -107,3 +107,39 @@ export function getPreviousArticleContentDivById(id) {
   // return a clone of the userDiv or null if it doesn't exist
   return userDiv.cloneNode(true) || null;
 }
+
+export function monitorNewArticles() {
+  console.debug("***** #### monitorNewArticles called");
+  if (!document.body) {
+    console.debug("***** #### monitorNewArticles: document.body not found, aborting observer setup");
+    return;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    for (const mut of mutations) {
+      for (const node of mut.addedNodes) {
+        if (!(node instanceof HTMLElement)) continue;
+
+        // If it's a new article directly
+        if (node.matches?.('div[data-message-author-role="assistant"]')) {
+          console.debug("***** #### [Observer] Found new article after regeneration:", node);
+          queue(node); // Safely re-enhance
+        }
+
+        // Or if it contains new articles inside
+        node.querySelectorAll?.('div[data-message-author-role="assistant"]').forEach((art) => {
+          console.debug("***** #### [Observer] Found nested article after regeneration:", art);
+          queue(art);
+        });
+      }
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  console.debug("***** #### monitorNewArticles observer setup complete");
+}
+

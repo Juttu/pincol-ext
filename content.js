@@ -1,6 +1,9 @@
 (async () => {
   console.info("[PinCol] Boot script starting...");
 
+  // const { monitorNewArticles } = await import(chrome.runtime.getURL("modules/collapse/helpers.js"));
+  // monitorNewArticles();
+
   const { setupPinTooltip } = await import(chrome.runtime.getURL("modules/collapse/helpers.js"));
 
   setupPinTooltip();
